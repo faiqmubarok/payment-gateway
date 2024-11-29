@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/auth/login",
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`,
         formData
       );
       alert("Login successful!");

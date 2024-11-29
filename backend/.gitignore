@@ -1,0 +1,21 @@
+# Node modules
+node_modules/
+
+# Environment variable file
+.env
+
+# Logs
+*.log
+
+# Temporary files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build folders (jika ada)
+dist/
+build/
+
+# OS generated files (untuk sistem operasi Windows, Mac, dll)
+.DS_Store
+Thumbs.db
