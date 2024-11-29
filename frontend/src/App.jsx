@@ -9,18 +9,19 @@ import Home from "./pages/Home";
 import Product from "./pages/Product";
 import Transactions from "./pages/Transactions";
 import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 import NotFound from "./pages/NotFound";
 
 // Utils
 import PageTitle from "./components/PageTitle";
 
-// const isAuthenticated = () => {
-//   return !!sessionStorage.getItem("authToken");
-// };
+const isAuthenticated = () => {
+  return !!sessionStorage.getItem("authToken");
+};
 
 const App = () => {
   const { pathname } = useLocation();
-  const userIsLoggedIn = true;
+  const userIsLoggedIn = isAuthenticated();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -28,62 +29,84 @@ const App = () => {
 
   return (
     <>
-    <Routes>
-      <Route
-        path="/"
-        element={
-          userIsLoggedIn ? (
+      <Routes>
+        <Route
+          path="/"
+          element={
+            userIsLoggedIn ? (
+              <>
+                <PageTitle title="Homepage | Dummy Provider" />
+                <DefaultLayout>
+                  <Home />
+                </DefaultLayout>
+              </>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            userIsLoggedIn ? (
+              <>
+                <PageTitle title="Products | Dummy Provider" />
+                <DefaultLayout>
+                  <Product />
+                </DefaultLayout>
+              </>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/transactions"
+          element={
+            userIsLoggedIn ? (
+              <>
+                <PageTitle title="Transactions | Dummy Provider" />
+                <DefaultLayout>
+                  <Transactions />
+                </DefaultLayout>
+              </>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        {/* Authentication */}
+        <Route
+          path="/login"
+          element={
             <>
-              <PageTitle title="Homepage | Dummy Provider" />
-              <DefaultLayout>
-                <Home />
-              </DefaultLayout>
+              <PageTitle title="Login | Dummy Provider" />
+              <Login />
             </>
-          ) : (
-            <Login />
-          )
-        }
-      />
-      <Route
-        path="/products"
-        element={
-          userIsLoggedIn ? (
+          }
+        />
+        <Route
+          path="/register"
+          element={
             <>
-              <PageTitle title="Products | Dummy Provider" />
-              <DefaultLayout>
-                <Product />
-              </DefaultLayout>
+              <PageTitle title="Register | Dummy Provider" />
+              <Register />
             </>
-          ) : (
-            <Login />
-          )
-        }
-      />
-      <Route
-        path="/transactions"
-        element={
-          userIsLoggedIn ? (
+          }
+        />
+        
+        {/* 404 Error Page */}
+        <Route
+          path="*"
+          element={
             <>
-              <PageTitle title="Transactions | Dummy Provider" />
-              <DefaultLayout>
-                <Transactions />
-              </DefaultLayout>
+              <PageTitle title="404 | Dummy Provider" />
+              <NotFound />
             </>
-          ) : (
-            <Login />
-          )
-        }
-      />
-      <Route
-        path="*"
-        element={
-          <>
-            <PageTitle title="404 | Dummy Provider" />
-            <NotFound />
-          </>
-        }
-      />
-    </Routes>
+          }
+        />
+      </Routes>
     </>
   );
 };

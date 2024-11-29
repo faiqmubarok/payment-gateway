@@ -1,10 +1,84 @@
+import { useState } from "react";
+import axios from "axios";
+import { Button, Card, Label, TextInput } from "flowbite-react";
+import Password from "../../components/Form/Password";
+import Logo from "../../components/Logo";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  return (
-    <div>
-      This is login page
-    </div>
-  )
-}
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
-export default Login
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:5001/api/auth/login",
+        formData
+      );
+      alert("Login successful!");
+      if (res.status === 200) {
+        sessionStorage.setItem("authToken", JSON.stringify(res.data));
+        navigate("/");
+      }
+    } catch (err) {
+      alert(err?.response?.data?.message || "Your password is wrong.");
+    }
+  };
+
+  return (
+    <section className="h-screen flex items-center w-screen text-black font-inter">
+      <Card className="max-w-md w-full mx-auto">
+        <div className=" p-2 mx-auto">
+          <Logo />
+        </div>
+        <div className="">
+          <h1 className="text-2xl font-bold text-primary">Login</h1>
+          <p className="text-sm text-gray-500">Welcome back to the app</p>
+        </div>
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="email" value="Email:" />
+            </div>
+            <TextInput
+              id="email"
+              name="email"
+              type="email"
+              placeholder="youremail@company.com"
+              required
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
+          <Password
+            id="password"
+            name="password"
+            labelValue="Password:"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <Button
+            className="bg-primary hover:bg-primary/80 mt-2.5 font-semibold focus:ring-0 focus:outline-none"
+            type="submit"
+          >
+            Login
+          </Button>
+        </form>
+        <span className="text-sm font-medium text-gray-600 mx-auto">
+          Don&quot;t have an account?{" "}
+          <Link className="text-primary hover:underline" to="/register">
+            Register
+          </Link>
+        </span>
+      </Card>
+    </section>
+  );
+};
+
+export default Login;

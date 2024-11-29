@@ -16,9 +16,10 @@ const DropdownUser = () => {
   });
 
   useEffect(() => {
+    const authStorage = JSON.parse(sessionStorage.getItem("authToken"));
     setUser({
-      name: "Muhammad Faiq Mubarok",
-      email: "faiqmubarok@gmail.com",
+      name: authStorage.user.name,
+      email: authStorage.user.email,
       photoProfile: "",
     })
   }, []);
