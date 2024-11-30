@@ -27,6 +27,7 @@ const DefaultLayout = ({ children }) => {
       link: "/transactions",
     },
   ];
+
   const scrollableRef = useRef(null);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);

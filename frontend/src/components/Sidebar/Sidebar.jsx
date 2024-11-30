@@ -37,6 +37,7 @@ const Sidebar = ({ listMenu, sidebarOpen, setSidebarOpen }) => {
         <div className="flex flex-col overflow-y-auto duration-300 ease-linear">
           <div className="mt-3 py-4 px-4 lg:px-6">
             <h3 className="mb-4 ml-4 text-sm font-semibold text-white">
+            
               MENU UTAMA
             </h3>
             <ul className="mb-6 flex flex-col gap-3">
@@ -57,6 +58,7 @@ const Sidebar = ({ listMenu, sidebarOpen, setSidebarOpen }) => {
                 </li>
               ))}
             </ul>
+
           </div>
         </div>
         {/* Sidebar Menu */}

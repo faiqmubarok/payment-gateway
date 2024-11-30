@@ -21,7 +21,8 @@ export default {
         'greenPrimary' : '#16423C',
         'greenSecondary' : '#1a4b45',
         'black': '#1C2434',
-      }
+      },
+      
     },
   },
   plugins: [flowbitePlugin], 
