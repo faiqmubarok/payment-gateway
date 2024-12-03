@@ -5,7 +5,6 @@ import { AiOutlineProduct } from "react-icons/ai";
 import { GrTransaction } from "react-icons/gr";
 import { FaHome } from "react-icons/fa";
 
-
 import Sidebar from "../components/Sidebar/Sidebar";
 import Header from "../components/Header/Header";
 
@@ -22,7 +21,7 @@ const DefaultLayout = ({ children }) => {
       link: "/products",
     },
     {
-      name: "Transaksi",
+      name: "Transactions",
       icon: <GrTransaction className="w-5 h-5" />,
       link: "/transactions",
     },

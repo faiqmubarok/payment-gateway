@@ -1,12 +1,11 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+const mongoose = require('mongoose');
 
-const ProductSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  type: { type: String, enum: ['pulsa', 'internet'], required: true },
+  price: { type: Number, required: true },
+  description: { type: String },
+  value: { type: Number},
 });
 
-
-
-module.exports = mongoose.model("Product", UserSchema);
+module.exports = mongoose.model('Product', productSchema);

@@ -6,6 +6,7 @@ const routes = require("./routes");
 
 const app = express();
 const PORT = process.env.PORT || 5001;
+const { handleWebhook } = require("./controllers/transactionController");
 
 // Middleware
 app.use(cors());
@@ -20,6 +21,7 @@ mongoose
 // Routes
 app.get("/", (req, res) => res.send("API is running..."));
 app.use("/api", routes);
+app.post("/webhook", handleWebhook);
 
 app.listen(PORT, () =>
   console.log(`Server running on port http://localhost:${PORT}/ `)

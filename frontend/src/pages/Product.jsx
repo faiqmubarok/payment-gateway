@@ -1,181 +1,73 @@
-import { Card } from "flowbite-react";
-import { Tabs } from "flowbite-react";
-import { Button } from "flowbite-react";
+import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
+import { CiGlobe } from "react-icons/ci";
+import { SlScreenSmartphone } from "react-icons/sl";
+import { useState } from "react";
+import Modal from "../components/Modal/Modal";
+import CardProduct from "../components/Card/CardProduct";
+import useFetchProducts from "../hooks/useFetchProducts";
+import FormCheckout from "../components/Form/FormCheckout";
 
 const Product = () => {
-  const pulsa = [
-    { price: 5000, gambar: "" },
-    { price: 10000, gambar: "" },
-    { price: 20000, gambar: "" },
-    { price: 25000, gambar: "" },
-    { price: 50000, gambar: "" },
-    { price: 100000, gambar: "" },
-  ];
-  const kuota = [
-    {
-      name: "kuota Yang Makin Aman Jaya",
-      price: 40000,
-      duration: "7 Hari",
-      ukuran: 8,
-      type: "Hari",
-      gambar: "",
-    },
-    {
-      name: "kaget",
-      price: 8000,
-      duration: "3 Hari",
-      ukuran: 2,
-      type: "Hari",
-      gambar: "",
-    },
-    {
-      name: "yang EMPAT Giga Seminggu",
-      price: 12000,
-      duration: "7 Hari",
-      ukuran: 4,
-      type: "Hari",
-      gambar: "",
-    },
-    {
-      name: "kaget2",
-      price: 17000,
-      duration: "7 Hari",
-      ukuran: 5,
-      type: "Hari",
-      gambar: "",
-    },
-    {
-      name: "yang bikin deket",
-      price: 10000,
-      duration: "1 Hari",
-      ukuran: 10,
-      type: "Hari",
-      gambar: "",
-    },
-    {
-      name: "yang DUA Giga Sehari",
-      price: 7000,
-      duration: "1 Hari",
-      ukuran: 4,
-      type: "Hari",
-      gambar: "",
-    },
-    {
-      name: "yang Bikin DUAbest",
-      price: 75000,
-      duration: "1 Bulan",
-      ukuran: 20,
-      type: "Bulan",
-      gambar: "",
-    },
-    {
-      name: "yang Bikin nagih",
-      price: 50000,
-      duration: "1 Bulan",
-      ukuran: 12,
-      type: "Bulan",
-      gambar: "",
-    },
-    {
-      name: "yang Hemat Sebulan",
-      price: 30000,
-      duration: "1 Bulan",
-      ukuran: 6,
-      type: "Bulan",
-      gambar: "",
-    },
-    {
-      name: "yang Hemat Sebulan",
-      price: 10000,
-      duration: "1 Bulan",
-      ukuran: 1,
-      type: "Bulan",
-      gambar: "",
-    },
-    {
-      name: "yang Hemat Sebulan",
-      price: 15000,
-      duration: "1 Bulan",
-      ukuran: 3,
-      type: "Bulan",
-      gambar: "",
-    },
-    {
-      name: "yang Anti Cemas",
-      price: 100000,
-      duration: "1 Bulan",
-      ukuran: 23,
-      type: "Bulan",
-      gambar: "",
-    },
-    {
-      name: "Yang Bikin Aman Jaya",
-      price: 2500,
-      duration: "3 jam",
-      ukuran: 5,
-      type: "Jam",
-      gambar: "",
-    },
-    {
-      name: "Yang Bikin Aman Jaya2",
-      price: 10000,
-      duration: "6 jam",
-      ukuran: 4,
-      type: "Jam",
-      gambar: "",
-    },
-    {
-      name: "Yang Aman Buat Nonton",
-      price: 20000,
-      duration: "12 jam",
-      ukuran: 2,
-      type: "Jam",
-      gambar: "",
-    },
-  ];
+  const [activeTab, setActiveTab] = useState("pulsa");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const { products, loading } = useFetchProducts({ activeTab });
 
   return (
     <>
-      <Tabs aria-label="Tabs with underline" variant="default">
-        <Tabs.Item active title="Pulsa">
-          <div className="grid grid-cols-3 gap-10">
-            {pulsa.map((item, index) => (
-              <Card key={index} className="max-w-sm py-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-3xl font-bold text-blue-500 dark:text-white">
-                    Rp.{item.price}
-                  </span>
-                  <Button>Buy</Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </Tabs.Item>
-        <Tabs.Item title="Kuota">
-          <div className="grid grid-cols-3 gap-10">
-            {kuota.map((item, index) => (
-              <Card key={index} className="max-w-sm py-3">
-                <div>
-                  <h5 className="text-2xl font-semibold tracking-tight text-blue-500 dark:text-white">
-                    {item.name}
-                  </h5>
-                </div>
-                <div className="mb-5">
-                  <span className="text-1xl font-bold text-gray-900 dark:text-white">
-                    {item.duration}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                    Rp.{item.price}
-                  </span>
-                  <Button>Buy</Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </Tabs.Item>
-      </Tabs>
+      <Breadcrumbs pageName={"Product"} />
+      <div className="rounded-sm border border-gray-100 bg-white shadow-md">
+        <div className="border-b border-gray-200 p-4 flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => setActiveTab("pulsa")}
+            className={`flex items-center gap-3 p-3 rounded-lg transition ${
+              activeTab === "pulsa"
+                ? "bg-primary text-white"
+                : "hover:text-white hover:bg-primary text-black"
+            }`}
+          >
+            <SlScreenSmartphone className="w-6 h-6" />
+            <h3 className="font-medium">Pulsa</h3>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("internet")}
+            className={`flex items-center gap-3 p-3 rounded-lg transition ${
+              activeTab === "internet"
+                ? "bg-primary text-white"
+                : "hover:text-white hover:bg-primary text-black"
+            }`}
+          >
+            <CiGlobe className="w-6 h-6" />
+            <h3 className="font-medium">Internet</h3>
+          </button>
+        </div>
+        <div className="p-4">
+          {loading && <p className="text-center">Loading...</p>}
+          {loading && !products && (
+            <p className="text-center">No Products...</p>
+          )}
+          {!loading && products && (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+              {products.map((product) => (
+                <CardProduct
+                  key={product._id}
+                  product={product}
+                  setShowModal={setShowModal}
+                  setSelectedProduct={setSelectedProduct}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <Modal.Header title="Checkout" onClose={() => setShowModal(false)} />
+          <FormCheckout product={selectedProduct} />
+        </Modal>
+      )}
     </>
   );
 };

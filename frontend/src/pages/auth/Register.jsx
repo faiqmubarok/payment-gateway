@@ -10,6 +10,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    noHp: "",
     password: "",
     confirmPassword: "",
   });
@@ -31,6 +32,7 @@ const Register = () => {
         setFormData({
             name: "",
             email: "",
+            noHp: "",
             password: "",
             confirmPassword: "",
         })
@@ -77,6 +79,20 @@ const Register = () => {
               placeholder="youremail@company.com"
               required
               value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="noHp" value="No Hp:" />
+            </div>
+            <TextInput
+              id="noHp"
+              name="noHp"
+              type="text"
+              placeholder="0xx-xxxx-xxxx"
+              required
+              value={formData.noHp}
               onChange={handleChange}
             />
           </div>

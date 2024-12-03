@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import images from "../../images/image";
+import { useTransaction } from "../../context/TransactionContext";
 
 const DropdownUser = () => {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { resetTransaction } = useTransaction();
 
   const [user, setUser] = useState({
     name: "",
@@ -21,11 +23,12 @@ const DropdownUser = () => {
       name: authStorage.user.name,
       email: authStorage.user.email,
       photoProfile: "",
-    })
+    });
   }, []);
 
   const handleLogout = () => {
     sessionStorage.removeItem("authToken");
+    resetTransaction();
     navigate("/");
   };
 
@@ -48,9 +51,7 @@ const DropdownUser = () => {
           <span className="h-12 w-12 rounded-full overflow-hidden drop-shadow-md">
             <img
               className="h-full w-full"
-              src={
-                user.photoProfile ? user.photoProfile : images.userProfile
-              }
+              src={user.photoProfile ? user.photoProfile : images.userProfile}
               alt="userProfile"
             />
           </span>

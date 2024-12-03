@@ -16,10 +16,6 @@ export default {
       colors: {
         'primary' : '#308be6',
         'secondary': '#101720',
-        'orangePrimary' : '#e26b13',
-        'orangeSecondary' : '#b9580e',
-        'greenPrimary' : '#16423C',
-        'greenSecondary' : '#1a4b45',
         'black': '#1C2434',
       },
       

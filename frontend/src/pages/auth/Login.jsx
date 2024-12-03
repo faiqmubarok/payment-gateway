@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ emailOrPhone: "", password: "" });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -44,15 +44,15 @@ const Login = () => {
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="email" value="Email:" />
+              <Label htmlFor="emailOrPhone" value="Email:" />
             </div>
             <TextInput
-              id="email"
-              name="email"
-              type="email"
-              placeholder="youremail@company.com"
+              id="emailOrPhone"
+              name="emailOrPhone"
+              type="text"
+              placeholder="Email or Phone"
               required
-              value={formData.email}
+              value={formData.emailOrPhone}
               onChange={handleChange}
             />
           </div>

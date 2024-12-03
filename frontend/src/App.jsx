@@ -14,7 +14,7 @@ import NotFound from "./pages/NotFound";
 
 // Utils
 import PageTitle from "./components/PageTitle";
-import AppProvider from "./hooks/AppProvider";
+import AppProvider from "./context/AppProvider";
 
 const isAuthenticated = () => {
   return !!sessionStorage.getItem("authToken");
@@ -37,7 +37,7 @@ const App = () => {
             element={
               userIsLoggedIn ? (
                 <>
-                  <PageTitle title="Homepage | Dummy Provider" />
+                  <PageTitle title="Homepage | Top-It" />
                   <DefaultLayout>
                     <Home />
                   </DefaultLayout>
@@ -52,7 +52,7 @@ const App = () => {
             element={
               userIsLoggedIn ? (
                 <>
-                  <PageTitle title="Products | Dummy Provider" />
+                  <PageTitle title="Products | Top-It" />
                   <DefaultLayout>
                     <Product />
                   </DefaultLayout>
@@ -67,7 +67,7 @@ const App = () => {
             element={
               userIsLoggedIn ? (
                 <>
-                  <PageTitle title="Transactions | Dummy Provider" />
+                  <PageTitle title="Transactions | Top-It" />
                   <DefaultLayout>
                     <Transactions />
                   </DefaultLayout>
@@ -83,7 +83,7 @@ const App = () => {
             path="/login"
             element={
               <>
-                <PageTitle title="Login | Dummy Provider" />
+                <PageTitle title="Login | Top-It" />
                 <Login />
               </>
             }
@@ -92,7 +92,7 @@ const App = () => {
             path="/register"
             element={
               <>
-                <PageTitle title="Register | Dummy Provider" />
+                <PageTitle title="Register | Top-It" />
                 <Register />
               </>
             }
@@ -103,7 +103,7 @@ const App = () => {
             path="*"
             element={
               <>
-                <PageTitle title="404 | Dummy Provider" />
+                <PageTitle title="404 | Top-It" />
                 <NotFound />
               </>
             }
