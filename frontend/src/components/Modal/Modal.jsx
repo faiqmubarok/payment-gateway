@@ -11,7 +11,7 @@ const Modal = ({ children, onClose }) => {
       <ClickedOutside exceptionRef={modalRef} onClick={onClose}>
         <div
           ref={modalRef}
-          className="rounded-sm border border-gray-100 bg-white shadow-md min-w-[300px] md:min-w-[400px] lg:min-w-[500px]"
+          className="rounded-sm border border-gray-100 bg-white shadow-md min-w-[300px] md:min-w-[400px] lg:min-w-[500px] overflow-y-auto max-h-[95vh]"
         >
           {children}
         </div>

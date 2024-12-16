@@ -5,10 +5,12 @@ import Password from "../../components/Form/Password";
 import Logo from "../../components/Logo";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useAlert } from "../../context/AlertContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({ emailOrPhone: "", password: "" });
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,13 +23,25 @@ const Login = () => {
         `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`,
         formData
       );
-      alert("Login successful!");
+      showAlert("success", res.data.message);
       if (res.status === 200) {
-        sessionStorage.setItem("authToken", JSON.stringify(res.data));
+        sessionStorage.setItem(
+          "authToken",
+          JSON.stringify({
+            token: res?.data.token,
+            user: {
+              id: res?.data.user.id,
+              name: res?.data.user.name,
+              email: res?.data.user.email,
+              role: res?.data.user.role,
+              noHp: res?.data.user.noHp,
+            },
+          })
+        );
         navigate("/");
       }
     } catch (err) {
-      alert(err?.response?.data?.message || "Your password is wrong.");
+      showAlert("error", err.response.data.message);
     }
   };
 

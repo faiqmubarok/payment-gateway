@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Card, Label, TextInput, Button } from "flowbite-react";
+import { Card, Button } from "flowbite-react";
 import Logo from "../../components/Logo";
-import axios from "axios";
-import Password from "../../components/Form/Password";
+import { createUser } from "../../api/userApi";
 import { useNavigate } from "react-router-dom";
+import FormRegister from "../../components/Form/FormRegister";
+import { useAlert } from "../../context/AlertContext";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,32 +16,30 @@ const Register = () => {
     confirmPassword: "",
   });
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const {showAlert} = useAlert();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/auth/register`,
-        formData
-      );
-      alert(res.data.message);
-      if(res.status === 201){
+      const data = await createUser(formData);
+      showAlert("success", data.data.message);
+      if (data.status === 201) {
         setFormData({
-            name: "",
-            email: "",
-            noHp: "",
-            password: "",
-            confirmPassword: "",
-        })
-        navigate("/login")
+          name: "",
+          email: "",
+          noHp: "",
+          password: "",
+          confirmPassword: "",
+        });
+        navigate("/login");
       }
     } catch (err) {
-      alert(err.response.data.message);
+      showAlert("error", err.response.data.message);
     }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -54,56 +53,15 @@ const Register = () => {
           <p className="text-sm text-gray-500">Please fill in the form below</p>
         </div>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="name" value="Name:" />
-            </div>
-            <TextInput
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Your full name"
-              required
-              value={formData.name}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="email" value="Email:" />
-            </div>
-            <TextInput
-              id="email"
-              name="email"
-              type="email"
-              placeholder="youremail@company.com"
-              required
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="noHp" value="No Hp:" />
-            </div>
-            <TextInput
-              id="noHp"
-              name="noHp"
-              type="text"
-              placeholder="0xx-xxxx-xxxx"
-              required
-              value={formData.noHp}
-              onChange={handleChange}
-            />
-          </div>
-          <Password
+          <FormRegister formData={formData} handleChange={handleChange} />
+          <FormRegister.Password
             id={"password"}
             name="password"
             labelValue="Password:"
             value={formData.password}
             onChange={handleChange}
           />
-          <Password
+          <FormRegister.Password
             id={"confirmPassword"}
             name="confirmPassword"
             labelValue="Confirm Password:"

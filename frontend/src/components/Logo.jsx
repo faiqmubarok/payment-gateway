@@ -8,7 +8,7 @@ const Logo = () => {
     >
       <div className="relative">
         <img
-          src={"/public/logo.svg"}
+          src={"/logo.svg"}
           className="h-10 transition-transform duration-300 group-hover:scale-110"
           loading="lazy"
           alt="Top-It Logo"

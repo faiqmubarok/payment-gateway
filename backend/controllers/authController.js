@@ -5,7 +5,7 @@ const Wallet = require("../models/Wallet");
 
 // Registrasi
 exports.register = async (req, res) => {
-  const { name, email, noHp, password, confirmPassword } = req.body;
+  const { name, email, noHp, password, confirmPassword, role } = req.body;
   if (password !== confirmPassword)
     return res.status(400).json({ message: "Passwords do not match!" });
 
@@ -22,12 +22,20 @@ exports.register = async (req, res) => {
         .json({ message: "Phone number is already registered" });
     }
 
-    const user = await User.create({ name, email, noHp, password });
+    const userRole = role || "user";
+
+    const user = await User.create({
+      name,
+      email,
+      noHp,
+      password,
+      role: userRole,
+    });
 
     const wallet = new Wallet({
-      userId: user._id, 
-      pulsa: 0,        
-      internet: 0,     
+      userId: user._id,
+      pulsa: 0,
+      internet: 0,
     });
 
     await wallet.save();
@@ -66,7 +74,9 @@ exports.login = async (req, res) => {
         name: user.name,
         email: user.email,
         noHp: user.noHp,
+        role: user.role,
       },
+      message: "Login successful",
     });
   } catch (err) {
     res.status(500).json({ message: "Error logging in", error: err.message });

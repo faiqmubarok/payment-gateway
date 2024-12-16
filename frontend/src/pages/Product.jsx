@@ -1,17 +1,36 @@
 import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
 import { CiGlobe } from "react-icons/ci";
 import { SlScreenSmartphone } from "react-icons/sl";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "../components/Modal/Modal";
 import CardProduct from "../components/Card/CardProduct";
-import useFetchProducts from "../hooks/useFetchProducts";
 import FormCheckout from "../components/Form/FormCheckout";
+import { fetchProducts } from "../api/productsApi";
 
 const Product = () => {
   const [activeTab, setActiveTab] = useState("pulsa");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const { products, loading } = useFetchProducts({ activeTab });
+  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const getProductsFilter = async () => {
+      setLoading(true);
+      try {
+        const response = await fetchProducts({
+          page: 1,
+          type: activeTab,
+        });
+        setProducts(response?.products);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getProductsFilter();
+  }, [activeTab]);
 
   return (
     <>
@@ -49,7 +68,7 @@ const Product = () => {
             <p className="text-center">No Products...</p>
           )}
           {!loading && products && (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
               {products.map((product) => (
                 <CardProduct
                   key={product._id}
@@ -65,7 +84,7 @@ const Product = () => {
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <Modal.Header title="Checkout" onClose={() => setShowModal(false)} />
-          <FormCheckout product={selectedProduct} />
+          <FormCheckout product={selectedProduct} setShowModal={setShowModal} />
         </Modal>
       )}
     </>

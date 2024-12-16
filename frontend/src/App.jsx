@@ -11,13 +11,26 @@ import Transactions from "./pages/Transactions";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import NotFound from "./pages/NotFound";
+import ManageProducts from "./pages/ManageProducts";
+import ManageTransactions from "./pages/ManageTransactions";
+import Users from "./pages/Users";
+import NotAccess from "./pages/auth/NotAccess";
 
 // Utils
 import PageTitle from "./components/PageTitle";
 import AppProvider from "./context/AppProvider";
 
 const isAuthenticated = () => {
-  return !!sessionStorage.getItem("authToken");
+  const storedData = sessionStorage.getItem("authToken");
+  if (!storedData) return null;
+
+  try {
+    const userData = JSON.parse(storedData);
+    return userData;
+  } catch (err) {
+    console.error("Error parsing user data:", err);
+    return null;
+  }
 };
 
 const App = () => {
@@ -48,7 +61,7 @@ const App = () => {
             }
           />
           <Route
-            path="/products"
+            path="/products/all-products"
             element={
               userIsLoggedIn ? (
                 <>
@@ -63,7 +76,31 @@ const App = () => {
             }
           />
           <Route
-            path="/transactions"
+            path="/products/manage"
+            element={
+              userIsLoggedIn ? (
+                userIsLoggedIn.user.role === "admin" ? (
+                  <>
+                    <PageTitle title="Manage Products | Top-It" />
+                    <DefaultLayout>
+                      <ManageProducts />
+                    </DefaultLayout>
+                  </>
+                ) : (
+                  <>
+                    <PageTitle title="Not Access | Top-It" />
+                    <DefaultLayout>
+                      <NotAccess />
+                    </DefaultLayout>
+                  </>
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
+          <Route
+            path="/transactions/all-transactions"
             element={
               userIsLoggedIn ? (
                 <>
@@ -72,6 +109,54 @@ const App = () => {
                     <Transactions />
                   </DefaultLayout>
                 </>
+              ) : (
+                <Login />
+              )
+            }
+          />
+          <Route
+            path="/transactions/manage"
+            element={
+              userIsLoggedIn ? (
+                userIsLoggedIn.user.role === "admin" ? (
+                  <>
+                    <PageTitle title="Manage Transactions | Top-It" />
+                    <DefaultLayout>
+                      <ManageTransactions />
+                    </DefaultLayout>
+                  </>
+                ) : (
+                  <>
+                    <PageTitle title="Not Access | Top-It" />
+                    <DefaultLayout>
+                      <NotAccess />
+                    </DefaultLayout>
+                  </>
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              userIsLoggedIn ? (
+                userIsLoggedIn.user.role === "admin" ? (
+                  <>
+                    <PageTitle title="Users | Top-It" />
+                    <DefaultLayout>
+                      <Users />
+                    </DefaultLayout>
+                  </>
+                ) : (
+                  <>
+                    <PageTitle title="Not Access | Top-It" />
+                    <DefaultLayout>
+                      <NotAccess />
+                    </DefaultLayout>
+                  </>
+                )
               ) : (
                 <Login />
               )

@@ -1,20 +1,38 @@
 import CardTemplate from "../components/Card/CardTemplate";
 import CardTransaction from "../components/Card/CardTransaction";
 import Pagination from "../components/Pagination/Pagination";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTransaction } from "../context/TransactionContext";
 import { CiGlobe } from "react-icons/ci";
 import { SlScreenSmartphone } from "react-icons/sl";
 import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
-import useFetchTransactions from "../hooks/useFetchTransactions";
+import { getUserTransaction } from "../api/transactionApi";
 
 const Transactions = () => {
   const userID = JSON.parse(sessionStorage.getItem("authToken")).user.id;
-  const { transactions, loading } = useFetchTransactions({ userID });
   const { selectedTransaction } = useTransaction();
   const [isCopied, setIsCopied] = useState(false);
   const [page, setPage] = useState(1);
-  const currentTransactions = transactions.slice((page - 1) * 5, page * 5);
+  const [transactions, setTransactions] = useState([]);
+  const currentTransactions = transactions?.slice((page - 1) * 5, page * 5);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getTransaction = async () => {
+      setLoading(true);
+      try {
+        const response = await getUserTransaction({ userId: userID });
+        setTransactions(response);
+      } catch (error) {
+        console.log(error);
+
+      } finally {
+        setLoading(false);
+      }
+    }
+    getTransaction();
+  }, [page, userID]);
+
 
   const handleCopy = () => {
     if (selectedTransaction) {

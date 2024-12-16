@@ -3,7 +3,7 @@ import { MdNavigateNext } from "react-icons/md";
 
 const Pagination = ({ page, totalPages, setPage }) => {
   return (
-    <div className="p-2 flex items-center space-x-2 sm:rounded-lg w-full justify-center md:justify-start">
+    <div className="p-2 flex items-center space-x-2">
       <button
         className="p-2 rounded-lg text-gray-500 hover:bg-gray-50 disabled:text-gray-300 disabled:hover:bg-transparent transition"
         disabled={page === 1}
@@ -12,7 +12,7 @@ const Pagination = ({ page, totalPages, setPage }) => {
         <MdNavigateNext className="w-5 h-5 rotate-180" />
       </button>
       <span className="text-sm text-gray-600">
-        Halaman <span className="font-semibold">{page}</span> dari{" "}
+        Page <span className="font-semibold">{page}</span> of{" "}
         <span className="font-semibold">{totalPages}</span>
       </span>
       <button

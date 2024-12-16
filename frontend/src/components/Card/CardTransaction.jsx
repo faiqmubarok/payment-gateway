@@ -2,6 +2,7 @@ import propTypes from "prop-types";
 import { CiGlobe } from "react-icons/ci";
 import { SlScreenSmartphone } from "react-icons/sl";
 import { useTransaction } from "../../context/TransactionContext";
+import { MdProductionQuantityLimits } from "react-icons/md";
 
 const CardTransaction = ({ transaction }) => {
   const { handleSelectTransaction, selectedTransaction } = useTransaction();
@@ -18,13 +19,18 @@ const CardTransaction = ({ transaction }) => {
       {transaction?.product.type === "pulsa" && (
         <SlScreenSmartphone className="w-6 h-6 mr-5 rounded-full" />
       )}
+      {transaction?.product.type === "N/A" && (
+        <MdProductionQuantityLimits className="w-6 h-6 mr-5 rounded-full" />
+      )}
       <div className="flex justify-between gap-5 items-center w-full text-black">
         <div className="flex flex-col gap-1.5 flex-1">
           <p className="font-semibold text-base">{transaction.product.name}</p>
           <p
             className={`${
               transaction.status === "success"
-                ? "text-green-500"
+                ? "text-green-500" :
+                transaction.status === "failed"
+                ? "text-red-500"
                 : "text-yellow-500"
             }`}
           >

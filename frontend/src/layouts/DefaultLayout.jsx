@@ -4,12 +4,14 @@ import ScrollToTop from "../components/ScrollToTop";
 import { AiOutlineProduct } from "react-icons/ai";
 import { GrTransaction } from "react-icons/gr";
 import { FaHome } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
+
 
 import Sidebar from "../components/Sidebar/Sidebar";
 import Header from "../components/Header/Header";
 
 const DefaultLayout = ({ children }) => {
-  const menu = [
+  const listMenu = [
     {
       name: "Home",
       icon: <FaHome className="w-5 h-5" />,
@@ -18,12 +20,35 @@ const DefaultLayout = ({ children }) => {
     {
       name: "Products",
       icon: <AiOutlineProduct className="w-5 h-5" />,
-      link: "/products",
+      subMenu: [
+        {
+          name: "All Products",
+          link: "/products/all-products",
+        },
+        {
+          name: "Manage Products",
+          link: "/products/manage",
+        },
+      ],
     },
     {
       name: "Transactions",
       icon: <GrTransaction className="w-5 h-5" />,
-      link: "/transactions",
+      subMenu: [
+        {
+          name: "All Transactions",
+          link: "/transactions/all-transactions",
+        },
+        {
+          name: "Manage Transactions",
+          link: "/transactions/manage",
+        },
+      ],
+    },
+    {
+      name: "Users",
+      icon: <FaRegUser className="w-5 h-5" />,
+      link: "/users",
     },
   ];
 
@@ -36,20 +61,17 @@ const DefaultLayout = ({ children }) => {
       <div className="flex h-screen overflow-hidden">
         {/* Sidebar */}
         <Sidebar
-          listMenu={menu}
+          listMenu={listMenu}
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
         />
         {/* Sidebar */}
         <div
-          className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden"
+          className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden no-scrollbar"
           ref={scrollableRef}
         >
           {/* Header */}
-          <Header
-            sidebarOpen={sidebarOpen}
-            setSidebarOpen={setSidebarOpen}
-          />
+          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           {/* Header */}
 
           <main>

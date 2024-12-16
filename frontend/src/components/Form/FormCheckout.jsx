@@ -5,15 +5,13 @@ import { TextInput, Label, Button } from "flowbite-react";
 import { CiGlobe } from "react-icons/ci";
 import { SlScreenSmartphone } from "react-icons/sl";
 import { MdErrorOutline } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 
-const FormCheckout = ({ product }) => {
+const FormCheckout = ({ product, setShowModal }) => {
   const [formData, setFormData] = useState({
     noHp: "",
     productId: product?._id,
     amount: product?.price,
   });
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const userPhone = JSON.parse(sessionStorage.getItem("authToken"))?.user?.noHp;
@@ -43,7 +41,7 @@ const FormCheckout = ({ product }) => {
       );
       window.open(response.data.data.redirect_url, "_blank");
       if (response.status === 201) {
-        navigate("/transactions");
+        setShowModal(false);
       }
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong.");
@@ -128,6 +126,7 @@ const FormCheckout = ({ product }) => {
 
 FormCheckout.propTypes = {
   product: propTypes.object.isRequired,
+  setShowModal: propTypes.func,
 };
 
 export default FormCheckout;

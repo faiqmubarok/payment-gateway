@@ -11,7 +11,7 @@ export const TransactionProvider = ({ children }) => {
 
   const handleSelectTransaction = (transaction) => {
     setSelectedTransaction(transaction);
-    navigate("/transactions");
+    navigate("/transactions/all-transactions");
   };
 
   const resetTransaction = () => {
